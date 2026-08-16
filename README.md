@@ -1,10 +1,10 @@
 # HyperMonica
 
+> **AI 生成声明**：本项目基于上游 HyperPasskey 的全部修改（包括 CI 自动构建与发布工作流）均由 AI 辅助生成，非人工编写。使用时请自行审查其行为，并按需修改。
+
 基于 [HyperPasskey](https://github.com/howard20181/HyperPasskey) 修改的定制版 Xposed 模块（libxposed API 101）。
 
 在国行 HyperOS 上，将 **[Monica](https://github.com/Monica-Pass/Monica)** 设为首选通行密钥（Passkey）与自动填充提供者，并拦截系统对凭据配置的重置。
-
-> Monica 官方已注明已知限制："Monica for Android 目前无法在部分小米 HyperOS 设备上创建通行密钥"。本模块即为解决该问题而生。
 
 ## 与原版的区别
 
@@ -46,12 +46,6 @@
 - 已安装 GMS 核心（`ro.miui.has_gmscore=1`）——凭据选择器 UI 依赖 GMS 组件
 - Android 14+，已 root 并使用 LSPosed（或兼容 libxposed API 101 的框架）
 
-## 安装
-
-1. 卸载原版 HyperPasskey（签名不同，无法直接覆盖安装）
-2. 安装 APK，在 LSPosed 中启用模块（作用域已由 `staticScope` 固定）
-3. 重启手机（system_server hook 需重启生效）
-4. 重启后触发一次凭据请求（如浏览器访问 [webauthn.io](https://webauthn.io)），模块会自动将 Monica 校正为首选
 
 ## 验证
 
@@ -68,6 +62,14 @@ gradlew :app:assembleDebug
 产物：`app/build/outputs/apk/debug/HyperMonica-1.4.1-monica.10410-debug.apk`
 
 可选签名：在根目录 `local.properties` 中配置 `storeFile` / `storePassword` / `keyAlias` / `keyPassword`（该文件已被 .gitignore 忽略）。
+
+### CI 自动构建与发布
+
+仓库内置 GitHub Actions 工作流（`.github/workflows/build-release.yml`），自动构建 debug / release APK 并可选发布到 GitHub Release：
+
+- 推送 `v*` 标签（如 `v1.4.1-monica`）→ 自动构建并创建对应 Release
+- 手动触发（Actions 页 → Run workflow）→ 默认只构建并上传产物；勾选 `create_release` 并填写 `tag_name` 可直接发布
+- 签名：在仓库 Secrets 中配置 `KEYSTORE_B64`（keystore 的 base64）/ `KEYSTORE_PASSWORD` / `KEY_ALIAS` / `KEY_PASSWORD` 后自动签名；未配置时 release 走 debug 签名
 
 ## 已知限制
 

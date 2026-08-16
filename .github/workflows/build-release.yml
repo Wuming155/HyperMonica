@@ -1,0 +1,81 @@
+name: 构建并发布 APK
+
+"on":
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      create_release:
+        description: 构建后发布到 GitHub Release
+        type: boolean
+        default: false
+      tag_name:
+        description: Release 标签名（create_release 勾选时必填），如 v1.4.1-monica
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          # 完整克隆，确保 refs/remotes/origin/main 存在，versionCode 能按提交数计算
+          fetch-depth: 0
+
+      - name: 设置 JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: 注入签名配置（可选）
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          chmod +x gradlew
+          # 配置了 KEYSTORE_B64 等 secrets 时写入 local.properties，否则 release 走 debug 签名
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > keystore.jks
+            cat > local.properties <<EOF
+            storeFile=keystore.jks
+            storePassword=$KEYSTORE_PASSWORD
+            keyAlias=$KEY_ALIAS
+            keyPassword=$KEY_PASSWORD
+            EOF
+          fi
+
+      - name: 校验手动发布的标签名
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true' && github.event.inputs.tag_name == ''
+        run: |
+          echo "::error::手动发布时必须填写 tag_name"
+          exit 1
+
+      - name: 构建 APK（debug + release）
+        run: ./gradlew :app:assembleDebug :app:assembleRelease --no-daemon
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: |
+            app/build/outputs/apk/debug/*.apk
+            app/build/outputs/apk/release/*.apk
+
+      - name: 发布到 GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag_name || github.ref_name }}
+          name: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag_name || github.ref_name }}
+          files: |
+            app/build/outputs/apk/debug/*.apk
+            app/build/outputs/apk/release/*.apk
