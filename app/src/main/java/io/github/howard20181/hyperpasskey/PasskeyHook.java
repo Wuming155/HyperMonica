@@ -66,8 +66,31 @@ public class PasskeyHook extends XposedModule {
             } catch (Exception e) {
                 log(Log.ERROR, TAG, "hook RequestSession failed", e);
             }
+            try {
+                hookCredentialManagerService(classLoader);
+            } catch (Exception e) {
+                log(Log.ERROR, TAG, "hook CredentialManagerService failed", e);
+            }
         } catch (Throwable tr) {
             log(Log.ERROR, TAG, "Error hooking system service", tr);
+        }
+    }
+
+    /**
+     * Hook CredentialManagerService 构造器,开机时即校正 Monica 为首选,
+     * 无需等待用户首次发起凭据请求。
+     */
+    private void hookCredentialManagerService(ClassLoader classLoader) throws ClassNotFoundException {
+        var iClass = classLoader.loadClass("com.android.server.credentials.CredentialManagerService");
+        for (Constructor<?> constructor : iClass.getDeclaredConstructors()) {
+            hook(constructor).intercept(chain -> {
+                chain.proceed();
+                var args = chain.getArgs();
+                if (!args.isEmpty() && args.get(0) instanceof Context context) {
+                    ensureMonicaPreferred(context);
+                }
+                return null;
+            });
         }
     }
 
