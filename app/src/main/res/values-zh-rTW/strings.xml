@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">HyperOS Monica 通行金鑰</string>
+    <string name="app_name">HyperMonica</string>
     <string name="xposed_description">將 Monica 設為澎湃系統的首選通行金鑰與自動填充提供者，並攔截系統對憑據配置的重置</string>
 </resources>

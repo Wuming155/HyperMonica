@@ -80,7 +80,7 @@ android {
     namespace 'io.github.howard20181.hyperpasskey'
 }
 base {
-    archivesName = "HyperPasskey-" + android.defaultConfig.versionName + "." + android.defaultConfig.versionCode
+    archivesName = "HyperMonica-" + android.defaultConfig.versionName + "." + android.defaultConfig.versionCode
 }
 dependencies {
     implementation "androidx.annotation:annotation:1.9.1"

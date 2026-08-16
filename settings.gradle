@@ -20,7 +20,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "HyperPasskey"
+rootProject.name = "HyperMonica"
 include ':app'
 include ':hiddenapi'
 include ':hiddenapi:stubs'

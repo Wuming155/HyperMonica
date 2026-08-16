@@ -1,4 +1,4 @@
-# HyperOS Monica 通行密钥
+# HyperMonica
 
 基于 [HyperPasskey](https://github.com/howard20181/HyperPasskey) 修改的定制版 Xposed 模块（libxposed API 101）。
 
@@ -14,7 +14,7 @@
 | 首选提供者 | 用户手动设置，可能被系统重置 | 每次凭据请求时自动校正为 Monica |
 | 自动填充 | 不干预 | 强制切换为 Monica 的自动填充服务 |
 | 小米扫一扫 | Hook 放行 FIDO 二维码交接 | 已移除（不需要跨设备扫码） |
-| 模块名称 / 描述 | Fix HyperOS Passkey | HyperOS Monica 通行密钥 |
+| 模块名称 / 描述 | Fix HyperOS Passkey | HyperMonica |
 | versionCode | 按 git 提交数生成 | 固定 10410，避免被在线仓库提示更新覆盖 |
 
 ## 工作原理
@@ -65,7 +65,7 @@
 gradlew :app:assembleDebug
 ```
 
-产物：`app/build/outputs/apk/debug/HyperPasskey-1.4.1-monica.10410.apk`
+产物：`app/build/outputs/apk/debug/HyperMonica-1.4.1-monica.10410-debug.apk`
 
 可选签名：在根目录 `local.properties` 中配置 `storeFile` / `storePassword` / `keyAlias` / `keyPassword`（该文件已被 .gitignore 忽略）。
 
@@ -74,6 +74,19 @@ gradlew :app:assembleDebug
 - **跨设备（扫码）登录仍走 Google**：系统混合认证通道只分发给单一指定服务，第三方提供者无法接收，通行密钥会保存至 Google 密码管理器。此为 Android 平台限制，非模块缺陷
 - 首选切换为 Monica 后，新创建的通行密钥默认进 Monica；Google 侧存量密钥仍在选择器中可用
 
-## 许可证
+## 许可证与致谢
 
-[GPL-3.0](LICENSE)，衍生自 [HyperPasskey](https://github.com/howard20181/HyperPasskey)（howard20181）。
+本项目为 [HyperPasskey](https://github.com/howard20181/HyperPasskey)（作者 [howard20181](https://github.com/howard20181)）的衍生作品，遵循 [GPL-3.0](LICENSE) 许可证发布。
+
+- 上游项目：<https://github.com/howard20181/HyperPasskey>
+- 上游作者：howard20181
+- 许可证：GNU General Public License v3.0
+
+本项目的核心修改点（相对上游）：
+
+1. 将 Monica 设为首选凭据提供者（`credential_service_primary`）与自动填充服务（`autofill_service`），在开机与每次凭据请求时幂等校正
+2. 移除小米扫一扫（`com.xiaomi.scanner`）的 FIDO 交接 hook 及对应作用域
+3. 重命名模块、调整 versionCode 避免被在线仓库提示更新覆盖
+4. 依据 GPL-3.0 的传染性要求，本项目同样以 GPL-3.0 许可发布，源代码随仓库完整提供
+
+如你在此基础上继续修改，需继续以 GPL-3.0 发布，并保留上述上游版权与来源声明。
