@@ -24,13 +24,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           # 完整克隆，确保 git rev-list 能按提交数计算版本号
           fetch-depth: 0
 
       - name: 设置 JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
@@ -45,14 +45,11 @@ jobs:
         run: |
           chmod +x gradlew
           # 配置了 KEYSTORE_B64 等 secrets 时写入 local.properties，否则 release 走 debug 签名
+          # 注意：不能用 heredoc（<<EOF），YAML 缩进会让 EOF 无法顶格，导致 bash 语法错误
           if [ -n "$KEYSTORE_B64" ]; then
             echo "$KEYSTORE_B64" | base64 -d > keystore.jks
-            cat > local.properties <<EOF
-            storeFile=keystore.jks
-            storePassword=$KEYSTORE_PASSWORD
-            keyAlias=$KEY_ALIAS
-            keyPassword=$KEY_PASSWORD
-            EOF
+            printf 'storeFile=keystore.jks\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
+              "$KEYSTORE_PASSWORD" "$KEY_ALIAS" "$KEY_PASSWORD" > local.properties
           fi
 
       - name: 校验手动发布的标签名
