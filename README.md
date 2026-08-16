@@ -62,10 +62,10 @@
 ## 构建
 
 ```
-gradlew :HyperPasskey:assembleDebug
+gradlew :app:assembleDebug
 ```
 
-产物：`HyperPasskey/build/outputs/apk/debug/HyperPasskey-1.4.1-monica.10410.apk`
+产物：`app/build/outputs/apk/debug/HyperPasskey-1.4.1-monica.10410.apk`
 
 可选签名：在根目录 `local.properties` 中配置 `storeFile` / `storePassword` / `keyAlias` / `keyPassword`（该文件已被 .gitignore 忽略）。
 

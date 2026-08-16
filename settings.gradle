@@ -21,7 +21,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "HyperPasskey"
-include ':HyperPasskey'
+include ':app'
 include ':hiddenapi'
 include ':hiddenapi:stubs'
 include ':hiddenapi:bridge'
