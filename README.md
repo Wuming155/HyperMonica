@@ -65,8 +65,9 @@ gradlew :app:assembleDebug
 
 ### CI 自动构建与发布
 
-仓库内置 GitHub Actions 工作流（`.github/workflows/build-release.yml`），自动构建 debug / release APK 并可选发布到 GitHub Release：
+仓库内置 GitHub Actions 工作流（`.github/workflows/build-release.yml`），自动构建 debug / release APK 并发布到 GitHub Release：
 
+- 推送到 `main` → 自动构建并以提交数生成标签 `v1.4.1-monica.<提交数>`，创建对应 Release
 - 推送 `v*` 标签（如 `v1.4.1-monica`）→ 自动构建并创建对应 Release
 - 手动触发（Actions 页 → Run workflow）→ 默认只构建并上传产物；勾选 `create_release` 并填写 `tag_name` 可直接发布
 - 签名：在仓库 Secrets 中配置 `KEYSTORE_B64`（keystore 的 base64）/ `KEYSTORE_PASSWORD` / `KEY_ALIAS` / `KEY_PASSWORD` 后自动签名；未配置时 release 走 debug 签名
