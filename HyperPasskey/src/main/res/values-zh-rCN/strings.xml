@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HyperOS Monica 通行密钥</string>
+    <string name="xposed_description">将 Monica 设为澎湃系统的首选通行密钥与自动填充提供者，并拦截系统对凭据配置的重置</string>
+</resources>

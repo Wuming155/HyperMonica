@@ -1,0 +1,42 @@
+# Gradle
+.gradle/
+build/
+
+# IDE
+*.iml
+.idea/
+.vscode/
+
+# 本地配置（含 SDK 路径与签名信息，严禁提交）
+local.properties
+
+# 签名材料
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+
+# 构建产物
+*.apk
+*.aab
+*.ap_
+release/
+debug/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# 操作系统
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# 日志与崩溃转储
+*.log
+*.tmp
+hs_err_pid*
+replay_pid*
+
+# Kotlin 会话数据
+.kotlin/

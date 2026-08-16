@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Monica Passkey for HyperOS</string>
+    <string name="xposed_description">Make Monica the preferred passkey and autofill provider on HyperOS, and block system credential resets</string>
+</resources>
