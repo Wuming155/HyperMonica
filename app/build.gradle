@@ -9,7 +9,8 @@ android {
         applicationId namespace
         minSdkVersion 34
         targetSdkVersion 36
-        versionCode rootProject.ext.commitCount
+        // 固定 versionCode：高值以避免被上游/在线仓库的版本提示覆盖安装
+        versionCode 10410
         versionName "1.4.1-monica"
         ndk {
             //noinspection ChromeOsAbiSupport
