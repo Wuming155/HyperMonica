@@ -27,6 +27,7 @@ import org.luckypray.dexkit.query.matchers.MethodsMatcher;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -108,8 +109,9 @@ public class PasskeyHook extends XposedModule {
         }
         try (var bridge = DexKitBridge.create(classLoader, true)) {
             switch (pn) {
-                case settingsPackageName -> {
-                    try {
+            case settingsPackageName -> {
+                Log.i(TAG, "Settings process loaded, installing hooks");
+                try {
                         hookDefaultCombinedPicker(classLoader);
                     } catch (Exception e) {
                         log(Log.ERROR, TAG, "hook DefaultCombinedPicker failed", e);
@@ -131,6 +133,11 @@ public class PasskeyHook extends XposedModule {
                             log(Log.ERROR, TAG, "hook DefaultAppPreferenceController failed", e);
                         }
                     }
+                    try {
+                        hookCredentialProviderInfoStatus(classLoader);
+                    } catch (Exception e) {
+                        log(Log.ERROR, TAG, "hook CredentialProviderInfo status failed", e);
+                    }
                 }
                 case securityCenterPackageName -> {
                     try {
@@ -139,6 +146,40 @@ public class PasskeyHook extends XposedModule {
                         log(Log.ERROR, TAG, "hook SecurityCenterApplication failed", e);
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * 在设置进程强制 Monica 的凭据提供者状态为"已启用/首选"。
+     * HyperOS 设置页对状态的判定不完全跟随 credential_service 配置,
+     * 这里拦截 framework CredentialProviderInfo 的状态查询做最终修正。
+     */
+    private void hookCredentialProviderInfoStatus(ClassLoader classLoader) throws ClassNotFoundException {
+        var iClass = classLoader.loadClass("android.credentials.CredentialProviderInfo");
+        var monica = ComponentName.unflattenFromString(monicaCredentialProvider);
+        for (var methodName : new String[]{"isEnabled", "isPrimary"}) {
+            try {
+                var method = iClass.getDeclaredMethod(methodName);
+                hook(method).intercept(chain -> {
+                    var result = chain.proceed();
+                    if (!(result instanceof Boolean b) || !b) {
+                        try {
+                            var cn = (ComponentName) iClass
+                                    .getDeclaredMethod("getComponentName")
+                                    .invoke(chain.getThisObject());
+                            if (monica.equals(cn)) {
+                                Log.i(TAG, "Force " + methodName + "=true for Monica (was " + result + ")");
+                                return true;
+                            }
+                        } catch (Exception ignored) {
+                        }
+                    }
+                    return result;
+                });
+                Log.i(TAG, "hooked CredentialProviderInfo." + methodName);
+            } catch (NoSuchMethodException e) {
+                Log.w(TAG, "CredentialProviderInfo." + methodName + " not found", e);
             }
         }
     }

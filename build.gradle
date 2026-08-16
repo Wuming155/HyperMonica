@@ -11,4 +11,8 @@ tasks.named("updateDaemonJvm") {
     vendor = JvmVendorSpec.ADOPTIUM
 }
 var repo = jgit.repo(true)
-ext.commitCount = repo != null ? repo.commitCount('refs/remotes/origin/main') : 10410
+def commitCountValue = null
+if (repo != null) {
+    try { commitCountValue = repo.commitCount('refs/remotes/origin/main') } catch (ignored) {}
+}
+ext.commitCount = commitCountValue != null ? commitCountValue : 10410

@@ -27,6 +27,12 @@ captures/
 .externalNativeBuild/
 .cxx/
 
+# 逆向分析临时目录（调试用）
+analysis/
+
+# 性能分析
+*.hprof
+
 # 操作系统
 .DS_Store
 Thumbs.db
