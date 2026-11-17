@@ -1,5 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">HyperMonica</string>
-    <string name="xposed_description">將 Monica 設為澎湃系統的首選通行金鑰與自動填充提供者，並攔截系統對憑據配置的重置</string>
+    <string name="xposed_description">將你選擇的任一密碼管理軟體設為澎湃系統的首選通行金鑰與自動填充提供者，並攔截系統對憑據配置的重置</string>
+    <string name="config_title">選擇首選應用</string>
+    <string name="config_none">不干預（保持系統預設）</string>
+    <string name="config_saved">已儲存，將在下次憑據請求時生效</string>
+    <string name="config_cleared">已清除，模組不再干預</string>
+    <string name="config_service_unavailable">未連線到 LSPosed 服務，請確認模組已在 LSPosed 中啟用後重新開啟本頁面</string>
+    <string name="config_no_providers">未找到任何應用</string>
 </resources>

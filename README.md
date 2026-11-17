@@ -2,20 +2,24 @@
 
 > **AI 生成声明**：本项目基于上游 HyperPasskey 的全部修改（包括 CI 自动构建与发布工作流）均由 AI 辅助生成，非人工编写。使用时请自行审查其行为，并按需修改。
 
-基于 [HyperPasskey](https://github.com/howard20181/HyperPasskey) 修改的定制版 Xposed 模块（libxposed API 101）。
+基于 [HyperPasskey](https://github.com/howard20181/HyperPasskey) 修改的定制版 Xposed 模块（libxposed API 102，最低兼容 101）。
 
-在国行 HyperOS 上，将 **[Monica](https://github.com/Monica-Pass/Monica)** 设为首选通行密钥（Passkey）与自动填充提供者，并拦截系统对凭据配置的重置。
+在国行 HyperOS 上，将你选择的任一密码管理软件（默认场景为 **[Monica](https://github.com/Monica-Pass/Monica)**）设为首选通行密钥（Passkey）与自动填充提供者，并拦截系统对凭据配置的重置。
 
 ## 与原版的区别
 
 | 项目 | 原版 | 本定制版 |
 |---|---|---|
-| 定位 | 修复 HyperOS 通行密钥 | 同设备通行密钥保存至 **Monica** |
-| 首选提供者 | 用户手动设置，可能被系统重置 | 每次凭据请求时自动校正为 Monica |
-| 自动填充 | 不干预 | 强制切换为 Monica 的自动填充服务 |
+| 定位 | 修复 HyperOS 通行密钥 | 同设备通行密钥保存至你选择的密码管理软件 |
+| 首选提供者 | 用户手动设置，可能被系统重置 | 在模块界面选择任一凭据提供者，每次凭据请求时自动校正 |
+| 自动填充 | 不干预 | 强制切换为所选软件的自动填充服务（若其提供） |
 | 小米扫一扫 | Hook 放行 FIDO 二维码交接 | 已移除（不需要跨设备扫码） |
 | 模块名称 / 描述 | Fix HyperOS Passkey | HyperMonica |
 | versionCode | 按 git 提交数生成 | 固定 10410，避免被在线仓库提示更新覆盖 |
+
+## 配置首选软件
+
+不占用桌面图标：在 **LSPosed 管理器 → 模块 → HyperMonica** 页面点击「打开」进入选择界面。列表会显示设备上所有已安装的应用（按应用名排序），任选其一即可——模块会把它当作首选提供者处理（等同于将原硬编码的 Monica 包名替换为所选包名）。若所选应用未声明凭据服务或自动填充服务，则对应项不做干预；选择"不干预"则恢复系统默认行为。选择通过 libxposed RemotePreferences 同步给 hook，保存后在下一次凭据请求时生效，无需重启。
 
 ## 工作原理
 
@@ -23,12 +27,12 @@
 
 **system_server 层**
 - `RequestSession` 构造完成后将混合认证服务指向 GMS（跨设备流程仍可用）
-- 每次凭据请求时幂等校正（`ensureMonicaPreferred`）：
-  - `credential_service`：确保 Monica 在提供者列表中（保留其他项，Google 存量密钥不受影响）
-  - `credential_service_primary`：首选强制为 Monica
-  - `autofill_service`：自动填充强制为 Monica
-  - **Monica 未安装时不做任何干预**
-- Android 15+ 强制使用 GMS 的 `CredentialChooserActivity` 作为凭据选择器（选择器中会出现 Monica 条目）
+- 每次凭据请求时幂等校正（`ensurePreferred`），目标由模块配置决定：
+  - `credential_service`：确保所选软件在提供者列表中（保留其他项，Google 存量密钥不受影响）
+  - `credential_service_primary`：首选强制为所选软件的凭据服务
+  - `autofill_service`：若所选软件提供自动填充服务则强制切换
+  - **未选择或所选软件未安装时，不做任何干预**
+- Android 15+ 强制使用 GMS 的 `CredentialChooserActivity` 作为凭据选择器（选择器中会出现所选项条目）
 
 **设置层（com.android.settings）**
 - 临时翻转 `miui.os.Build.IS_INTERNATIONAL_BUILD`，解锁被国行隐藏的"密码、通行密钥与自动填充"入口
@@ -49,8 +53,9 @@
 
 ## 验证
 
-- 系统设置 → 密码、通行密钥与自动填充：首选应显示 Monica
-- 在手机浏览器创建通行密钥：选择器默认 Monica，密钥保存进 Monica
+- 在模块 App 中选择首选密码管理软件（如 Monica）
+- 系统设置 → 密码、通行密钥与自动填充：首选应显示所选项
+- 在手机浏览器创建通行密钥：选择器默认所选项，密钥保存进该软件
 - 手机管家清理/启动后配置不被重置
 
 ## 构建
@@ -59,7 +64,7 @@
 gradlew :app:assembleDebug
 ```
 
-产物：`app/build/outputs/apk/debug/HyperMonica-1.4.1-monica.10410-debug.apk`
+产物：`app/build/outputs/apk/debug/HyperMonica-1.5.0-monica.10410-debug.apk`
 
 可选签名：在根目录 `local.properties` 中配置 `storeFile` / `storePassword` / `keyAlias` / `keyPassword`（该文件已被 .gitignore 忽略）。
 
@@ -67,15 +72,15 @@ gradlew :app:assembleDebug
 
 仓库内置 GitHub Actions 工作流（`.github/workflows/build-release.yml`），自动构建 debug / release APK 并发布到 GitHub Release：
 
-- 推送到 `main` → 自动构建并以提交数生成标签 `v1.4.1-monica.<提交数>`，创建对应 Release
-- 推送 `v*` 标签（如 `v1.4.1-monica`）→ 自动构建并创建对应 Release
+- 推送到 `main` → 自动构建并以提交数生成标签 `v1.5.0-monica.<提交数>`，创建对应 Release
+- 推送 `v*` 标签（如 `v1.5.0-monica`）→ 自动构建并创建对应 Release
 - 手动触发（Actions 页 → Run workflow）→ 默认只构建并上传产物；勾选 `create_release` 并填写 `tag_name` 可直接发布
 - 签名：在仓库 Secrets 中配置 `KEYSTORE_B64`（keystore 的 base64）/ `KEYSTORE_PASSWORD` / `KEY_ALIAS` / `KEY_PASSWORD` 后自动签名；未配置时 release 走 debug 签名
 
 ## 已知限制
 
 - **跨设备（扫码）登录仍走 Google**：系统混合认证通道只分发给单一指定服务，第三方提供者无法接收，通行密钥会保存至 Google 密码管理器。此为 Android 平台限制，非模块缺陷
-- 首选切换为 Monica 后，新创建的通行密钥默认进 Monica；Google 侧存量密钥仍在选择器中可用
+- 首选切换为所选软件后，新创建的通行密钥默认进该软件；Google 侧存量密钥仍在选择器中可用
 
 ## 许可证与致谢
 
@@ -87,7 +92,7 @@ gradlew :app:assembleDebug
 
 本项目的核心修改点（相对上游）：
 
-1. 将 Monica 设为首选凭据提供者（`credential_service_primary`）与自动填充服务（`autofill_service`），在开机与每次凭据请求时幂等校正
+1. 将用户在模块界面中选择的密码管理软件设为首选凭据提供者（`credential_service_primary`）与自动填充服务（`autofill_service`），在开机与每次凭据请求时幂等校正；选择经 libxposed RemotePreferences 在模块 App 与 hook 之间同步
 2. 移除小米扫一扫（`com.xiaomi.scanner`）的 FIDO 交接 hook 及对应作用域
 3. 重命名模块、调整 versionCode 避免被在线仓库提示更新覆盖
 4. 依据 GPL-3.0 的传染性要求，本项目同样以 GPL-3.0 许可发布，源代码随仓库完整提供

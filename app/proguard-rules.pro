@@ -20,3 +20,4 @@
 
 -repackageclasses
 -allowaccessmodification
+-keep class io.github.libxposed.service.** { *; }

@@ -3,15 +3,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 36
+    compileSdkVersion 37
 
     defaultConfig {
         applicationId namespace
         minSdkVersion 34
-        targetSdkVersion 36
+        targetSdkVersion 37
         // 固定 versionCode：高值以避免被上游/在线仓库的版本提示覆盖安装
         versionCode 10410
-        versionName "1.4.1-monica"
+        versionName "1.5.0-monica"
         ndk {
             //noinspection ChromeOsAbiSupport
             abiFilters 'arm64-v8a'
@@ -77,16 +77,16 @@ android {
 
 
     dependenciesInfo.includeInApk false
-    enableKotlin = false
     namespace 'io.github.howard20181.hyperpasskey'
 }
 base {
     archivesName = "HyperMonica-" + android.defaultConfig.versionName + "." + android.defaultConfig.versionCode
 }
 dependencies {
-    implementation "androidx.annotation:annotation:1.9.1"
-    compileOnly 'io.github.libxposed:api:101.0.0'
-    implementation 'org.luckypray:dexkit:2.0.7'
+    implementation "androidx.annotation:annotation:1.10.0"
+    compileOnly 'io.github.libxposed:api:102.0.0'
+    implementation 'io.github.libxposed:service:102.0.0'
+    implementation 'org.luckypray:dexkit:2.2.0'
     compileOnly project(":hiddenapi:stubs")
     implementation project(":hiddenapi:bridge")
 }

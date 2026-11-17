@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 3.2,
+  "generatedAt": "2026-09-26T13:05:10.899Z",
+  "source": "desktop-rich",
+  "usageSource": "transcript-ratio",
+  "availability": {
+    "credits": "measured",
+    "roundTrips": "measured",
+    "contextRatio": "measured",
+    "tokens": "derived",
+    "outputTokens": "unavailable",
+    "cachedTokens": "unavailable",
+    "categoryShare": "derived",
+    "toolShare": "derived",
+    "fileShare": "derived",
+    "systemPrompt": "derived",
+    "contextWindow": "measured",
+    "compactions": "measured",
+    "compactionCost": "measured",
+    "model": "measured",
+    "title": "measured",
+    "toolCalls": "measured",
+    "fileReads": "measured",
+    "userTurns": "measured",
+    "userContextLimit": "fallback"
+  },
+  "session": {
+    "id": "5e615cb4-dfaf-49b0-a8e4-e5808770eadf",
+    "title": "[@security-scan](skill:/",
+    "titleSource": "first-user",
+    "model": "qfmodel",
+    "modelSource": "runtime-config",
+    "cwd": "D:\\GithubWorkplace\\HyperMonica",
+    "turns": 2,
+    "roundTrips": 9,
+    "compactions": 0,
+    "startedAt": "2026-09-26T13:02:31.580Z",
+    "endedAt": "2026-09-26T13:05:10.617Z"
+  },
+  "context": {
+    "contextWindow": 1000000,
+    "contextWindowSource": "runtime-config",
+    "systemPromptTokens": 20472,
+    "netContextTokens": 35529,
+    "peakContextTokens": 35529,
+    "peakContextRatio": 0.035529,
+    "peakSessionTokens": 35529,
+    "peakSessionRatio": 0.035529,
+    "peakSessionNotable": false,
+    "peakAdvice": {
+      "level": "low",
+      "tone": "info",
+      "text": "低于盈亏线（39%）。此时压缩在 token 上是亏的：省下的还不够付摘要输出加压缩后重读，别压"
+    },
+    "userContextLimit": 200000,
+    "userContextLimitSource": "default",
+    "peakUserRatio": 0.177645,
+    "peakUserAdvice": {
+      "level": "low",
+      "tone": "info",
+      "text": "低于盈亏线（39%）。此时压缩在 token 上是亏的：省下的还不够付摘要输出加压缩后重读，别压"
+    },
+    "currentContextTokens": 35529,
+    "netUserRatio": 0.177645,
+    "netUserAdvice": {
+      "level": "low",
+      "tone": "info",
+      "text": "低于盈亏线（39%）。此时压缩在 token 上是亏的：省下的还不够付摘要输出加压缩后重读，别压"
+    },
+    "netWindowRatio": 0.035529,
+    "observedAutoCompactions": 0,
+    "observedAutoTriggerTokens": null,
+    "autoTriggerRatio": null,
+    "thresholdNotEnforced": true
+  },
+  "totals": {
+    "billedInputTokens": 297772,
+    "netContextTokens": 35529,
+    "peakContextTokens": 35529,
+    "amplification": 8.38,
+    "attributedTokens": 297772,
+    "coverage": 1,
+    "credits": 1.754,
+    "originalCredits": 1.754,
+    "outputTokens": 0,
+    "cachedTokens": 0,
+    "cachedTrips": 0,
+    "cachedShare": 0,
+    "toolCalls": 8,
+    "fileReads": 0
+  },
+  "creditsCoverage": {
+    "trips": 9,
+    "roundTrips": 9,
+    "tokens": 297772,
+    "tokenShare": 1,
+    "full": true
+  },
+  "compactionCost": {
+    "count": 0,
+    "items": [],
+    "totals": {
+      "preTokens": 0,
+      "postTokens": 0,
+      "savedTokens": 0,
+      "measured": 0
+    }
+  },
+  "proxy": {
+    "matched": 0,
+    "requests": 9,
+    "breakdown": {
+      "proxy": 0,
+      "transcriptTokens": 0,
+      "transcriptRatio": 9
+    },
+    "logPath": "C:\\Users\\baiyun\\.qoder-credits-proxy\\usage.jsonl",
+    "logExists": false,
+    "logRecords": 0,
+    "configured": false,
+    "enabled": true,
+    "port": 49787,
+    "lastRecordAt": null,
+    "dormant": false,
+    "status": null,
+    "statusSuperseded": false
+  },
+  "byCategory": [
+    {
+      "key": "tool_result",
+      "label": "工具返回",
+      "tokens": 2320,
+      "share": 0.00779147706326585
+    },
+    {
+      "key": "system",
+      "label": "系统提示词",
+      "tokens": 184248,
+      "share": 0.6187552892817323
+    },
+    {
+      "key": "assistant_thinking",
+      "label": "模型思考",
+      "tokens": 8620,
+      "share": 0.02894780378857996
+    },
+    {
+      "key": "assistant_tool_use",
+      "label": "工具调用",
+      "tokens": 3636,
+      "share": 0.01221226334117012
+    },
+    {
+      "key": "user_input",
+      "label": "用户输入",
+      "tokens": 42354,
+      "share": 0.14223638296531568
+    },
+    {
+      "key": "attachment",
+      "label": "附件/技能",
+      "tokens": 56594,
+      "share": 0.19005678355993605
+    }
+  ],
+  "byCategoryDetail": [
+    {
+      "key": "tool_result",
+      "label": "工具返回",
+      "tokens": 2320,
+      "share": 0.00779147706326585,
+      "children": [
+        {
+          "tool": "AskUserQuestion",
+          "label": "（无路径）",
+          "kind": "other",
+          "tokens": 1515,
+          "share": 0.0050862436833353005,
+          "catShare": 0.6527958231841816,
+          "trips": 22
+        },
+        {
+          "tool": "Bash",
+          "label": "（无路径）",
+          "kind": "shell",
+          "tokens": 744,
+          "share": 0.0024998627821923324,
+          "catShare": 0.32084581163414194,
+          "trips": 6
+        },
+        {
+          "tool": "Skill",
+          "label": "（无路径）",
+          "kind": "other",
+          "tokens": 61,
+          "share": 0.00020537059773821694,
+          "catShare": 0.026358365181676408,
+          "trips": 8
+        }
+      ]
+    },
+    {
+      "key": "system",
+      "label": "系统提示词",
+      "tokens": 184248,
+      "share": 0.6187552892817323,
+      "children": []
+    },
+    {
+      "key": "assistant_thinking",
+      "label": "模型思考",
+      "tokens": 8620,
+      "share": 0.02894780378857996,
+      "children": []
+    },
+    {
+      "key": "assistant_tool_use",
+      "label": "工具调用",
+      "tokens": 3636,
+      "share": 0.01221226334117012,
+      "children": [
+        {
+          "tool": "AskUserQuestion",
+          "label": "（无路径）",
+          "kind": "other",
+          "tokens": 3380,
+          "share": 0.011349820912878348,
+          "catShare": 0.9293789853528384,
+          "trips": 22
+        },
+        {
+          "tool": "Bash",
+          "label": "（无路径）",
+          "kind": "shell",
+          "tokens": 211,
+          "share": 0.0007084144799881064,
+          "catShare": 0.0580084510297032,
+          "trips": 6
+        },
+        {
+          "tool": "Skill",
+          "label": "（无路径）",
+          "kind": "other",
+          "tokens": 46,
+          "share": 0.00015402794830366272,
+          "catShare": 0.012612563617458362,
+          "trips": 8
+        }
+      ]
+    },
+    {
+      "key": "user_input",
+      "label": "用户输入",
+      "tokens": 42354,
+      "share": 0.14223638296531568,
+      "children": []
+    },
+    {
+      "key": "attachment",
+      "label": "附件/技能",
+      "tokens": 56594,
+      "share": 0.19005678355993605,
+      "children": []
+    }
+  ],
+  "byTool": [
+    {
+      "tool": "AskUserQuestion",
+      "tokens": 4894,
+      "calls": 5,
+      "perCall": 979,
+      "share": 0.016436064596213648
+    },
+    {
+      "tool": "Bash",
+      "tokens": 955,
+      "calls": 2,
+      "perCall": 478,
+      "share": 0.0032082772621804395
+    },
+    {
+      "tool": "Skill",
+      "tokens": 107,
+      "calls": 1,
+      "perCall": 107,
+      "share": 0.00035939854604187966
+    }
+  ],
+  "byFile": [],
+  "byAttr": [
+    {
+      "attr": "system",
+      "tokens": 184248,
+      "share": 0.6187552892817323
+    },
+    {
+      "attr": "attachment",
+      "tokens": 56594,
+      "share": 0.19005678355993605
+    },
+    {
+      "attr": "user_input",
+      "tokens": 42354,
+      "share": 0.14223638296531568
+    },
+    {
+      "attr": "assistant_thinking",
+      "tokens": 8620,
+      "share": 0.02894780378857996
+    },
+    {
+      "attr": "tool_use|AskUserQuestion",
+      "tokens": 3380,
+      "share": 0.011349820912878348
+    },
+    {
+      "attr": "tool_result|AskUserQuestion",
+      "tokens": 1515,
+      "share": 0.0050862436833353005
+    },
+    {
+      "attr": "tool_result|Bash",
+      "tokens": 744,
+      "share": 0.0024998627821923324
+    },
+    {
+      "attr": "tool_use|Bash",
+      "tokens": 211,
+      "share": 0.0007084144799881064
+    },
+    {
+      "attr": "tool_result|Skill",
+      "tokens": 61,
+      "share": 0.00020537059773821694
+    },
+    {
+      "attr": "tool_use|Skill",
+      "tokens": 46,
+      "share": 0.00015402794830366272
+    }
+  ],
+  "byRequest": [
+    {
+      "index": 1,
+      "time": "21:02",
+      "ratio": 0.02707,
+      "inputTokens": 27070,
+      "outputTokens": null,
+      "usageSource": "transcript-ratio",
+      "credits": 0.755,
+      "originalCredits": 0.755,
+      "afterCompact": false
+    },
+    {
+      "index": 2,
+      "time": "21:02",
+      "ratio": 0.032126,
+      "inputTokens": 32126,
+      "outputTokens": null,
+      "usageSource": "transcript-ratio",
+      "credits": 0.235,
+      "originalCredits": 0.235,
+      "afterCompact": false
+    },
+    {
+      "index": 3,
+      "time": "21:03",
+      "ratio": 0.032758,
+      "inputTokens": 32758,
+      "outputTokens": null,
+      "usageSource": "transcript-ratio",
+      "credits": 0.099,
+      "originalCredits": 0.099,
+      "afterCompact": false
+    },
+    {
+      "index": 4,
+      "time": "21:03",
+      "ratio": 0.032979,
+      "inputTokens": 32979,
+      "outputTokens": null,
+      "usageSource": "transcript-ratio",
+      "credits": 0.111,
+      "originalCredits": 0.111,
+      "afterCompact": false
+    },
+    {
+      "index": 5,
+      "time": "21:03",
+      "ratio": 0.033627,
+      "inputTokens": 33627,
+      "outputTokens": null,
+      "usageSource": "transcript-ratio",
+      "credits": 0.102,
+      "originalCredits": 0.102,
+      "afterCompact": false
+    },
+    {
+      "index": 6,
+      "time": "21:04",
+      "ratio": 0.033873,
+      "inputTokens": 33873,
+      "outputTokens": null,
+      "usageSource": "transcript-ratio",
+      "credits": 0.133,
+      "originalCredits": 0.133,
+      "afterCompact": false
+    },
+    {
+      "index": 7,
+      "time": "21:04",
+      "ratio": 0.034802,
+      "inputTokens": 34802,
+      "outputTokens": null,
+      "usageSource": "transcript-ratio",
+      "credits": 0.11,
+      "originalCredits": 0.11,
+      "afterCompact": false
+    },
+    {
+      "index": 8,
+      "time": "21:04",
+      "ratio": 0.035008,
+      "inputTokens": 35008,
+      "outputTokens": null,
+      "usageSource": "transcript-ratio",
+      "credits": 0.101,
+      "originalCredits": 0.101,
+      "afterCompact": false
+    },
+    {
+      "index": 9,
+      "time": "21:05",
+      "ratio": 0.035529,
+      "inputTokens": 35529,
+      "outputTokens": null,
+      "usageSource": "transcript-ratio",
+      "credits": 0.109,
+      "originalCredits": 0.109,
+      "afterCompact": false
+    }
+  ],
+  "identity": {
+    "sumAttributed": 297772,
+    "billedInputTokens": 297772,
+    "absDiff": 0,
+    "ok": true
+  },
+  "pluginVersion": "2.7.4",
+  "selfCmd": "\"C:\\Users\\baiyun\\.qoder-cn\\plugins\\cache\\qoder-marketplace\\qoder-credits-inspector\\2.7.4\\bin\\credits-inspector.cmd\" cli",
+  "linkHealth": {
+    "matched": 0,
+    "requests": 9,
+    "coverage": 0,
+    "usageSource": "transcript-ratio",
+    "breakdown": {
+      "proxy": 0,
+      "transcriptTokens": 0,
+      "transcriptRatio": 9
+    },
+    "logRecords": 0,
+    "lastRecordAt": null,
+    "recentRequests": 0,
+    "proxyErrors": null,
+    "clientAbort": null,
+    "clientAbortMaxMs": null,
+    "upstreamRejected": null,
+    "aborted": null,
+    "truncated": null,
+    "noUsage": null,
+    "slowestMs": null,
+    "supersededFailure": null
+  },
+  "subagents": {
+    "scanned": false,
+    "dir": null,
+    "probedPaths": [
+      "C:\\Users\\baiyun\\.qoder-cn\\projects\\D--GithubWorkplace-HyperMonica\\5e615cb4-dfaf-49b0-a8e4-e5808770eadf\\subagents",
+      "C:\\Users\\baiyun\\.qoder-cn\\projects\\5e615cb4-dfaf-49b0-a8e4-e5808770eadf\\subagents"
+    ],
+    "reason": "no-dir",
+    "count": 0,
+    "items": [],
+    "totals": {
+      "roundTrips": 0,
+      "billedInputTokens": 0,
+      "credits": 0,
+      "originalCredits": 0
+    },
+    "combined": {
+      "roundTrips": 9,
+      "billedInputTokens": 297772,
+      "credits": 1.754,
+      "originalCredits": 1.754
+    }
+  },
+  "manual": null,
+  "artifacts": {
+    "report": "report.json",
+    "canvas": "[@security-scan](skill____5e615cb4.canvas.tsx"
+  }
+}

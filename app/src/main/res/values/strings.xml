@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">HyperMonica</string>
-    <string name="xposed_description">Make Monica the preferred passkey and autofill provider on HyperOS, and block system credential resets</string>
+    <string name="xposed_description">Let you pick any password manager as the preferred passkey and autofill provider on HyperOS, and block system credential resets</string>
+    <string name="config_title">Choose preferred app</string>
+    <string name="config_none">Do nothing (keep system default)</string>
+    <string name="config_saved">Saved. Takes effect on the next credential request</string>
+    <string name="config_cleared">Cleared. The module no longer intervenes</string>
+    <string name="config_service_unavailable">Not connected to the LSPosed service. Make sure the module is enabled in LSPosed, then reopen this page</string>
+    <string name="config_no_providers">No apps found on this device</string>
 </resources>

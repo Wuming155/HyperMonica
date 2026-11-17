@@ -2,11 +2,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 让配置界面能看到所有带桌面入口的应用(否则被包可见性过滤) -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
     <application
         android:description="@string/xposed_description"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        tools:ignore="AllowBackup,MissingApplicationIcon" />
+        tools:ignore="AllowBackup,MissingApplicationIcon">
+
+        <activity
+            android:name=".ConfigActivity"
+            android:exported="true"
+            android:label="@string/config_title"
+            android:theme="@android:style/Theme.DeviceDefault.DayNight">
+            <!-- CATEGORY_INFO:LSPosed 管理器优先以 MAIN+INFO 打开模块配置,
+                 而桌面启动器只显示 CATEGORY_LAUNCHER,因此不会生成桌面图标 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.INFO" />
+            </intent-filter>
+        </activity>
+    </application>
 
     <overlay
         android:isStatic="true"

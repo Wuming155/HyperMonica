@@ -46,3 +46,6 @@ replay_pid*
 
 # Kotlin 会话数据
 .kotlin/
+
+# 其他
+上游项目/
